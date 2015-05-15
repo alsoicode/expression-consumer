@@ -1,0 +1,13 @@
+{
+    "application": {
+        "name": "Expression-Consumer"
+    },
+    "restify": {
+        "host": "",
+        "port": 8080
+    },
+    "logger": {
+        "filename": "logs/run.log",
+        "level": "silly"
+    }
+}
