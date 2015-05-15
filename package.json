@@ -8,6 +8,7 @@
   "dependencies": {
     "dotenv": "^0.4.0",
     "nconf": "^0.7.1",
+    "request": "^2.55.0",
     "restify": "^3.0.2",
     "string": "~3.0.0",
     "winston": "^1.0.0"
