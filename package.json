@@ -1,0 +1,21 @@
+{
+  "name": "Expression-Consumer",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "dotenv": "^0.4.0",
+    "nconf": "^0.7.1",
+    "restify": "^3.0.2",
+    "string": "~3.0.0",
+    "winston": "^1.0.0"
+  },
+  "devDependencies": {
+    "supertest": "~0.15.0",
+    "grunt": "~0.4.5",
+    "grunt-env": "~0.4.2",
+    "grunt-cafe-mocha": "~0.1.13"
+  }
+}
