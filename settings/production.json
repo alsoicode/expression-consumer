@@ -9,5 +9,8 @@
     "logger": {
         "filename": "logs/run.log",
         "level": "silly"
+    },
+    "producerApi": {
+        "url": ""
     }
 }
