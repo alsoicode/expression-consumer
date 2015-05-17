@@ -33,7 +33,12 @@ exports.consume = function(req, res, next) {
                 }, function(error, response, body) {
                     if (!error && response.statusCode == 201) {
                         logger.log('info', 'Solution: %s reported to producer', solutionMsg);
-                        res.json(200, JSON.parse(response.body));
+
+                        var data = JSON.parse(response.body);
+                        data['expression'] = expression;
+                        data['solution'] = solution;
+
+                        res.json(200, data);
                     }
                     else {
                         res.json(400, {'error': error});
