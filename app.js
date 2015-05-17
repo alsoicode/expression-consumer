@@ -1,6 +1,7 @@
 'use strict';
 
 var config = require('./configuration'),
+    cluster = require('cluster'),
     heartbeat = require('./routes/heartbeat'),
     expression = require('./routes/expression'),
     nconf = require('nconf'),
@@ -8,39 +9,54 @@ var config = require('./configuration'),
     environment = nconf.get('NODE:ENV') || 'production';
 
 
-var server = restify.createServer({
-    name: config.get('application:name')
-});
+// only cluster if not testing
+if (cluster.isMaster && environment != 'test') {
+    var cpuCount = require('os').cpus().length;
 
-// middleware
-server.use(restify.bodyParser());
+    for (var i = 0; i < cpuCount; i++) {
+        cluster.fork();
+    }
 
-// Heartbeat
-server.get('/heartbeat', heartbeat.index);
+    cluster.on('exit', function(worker) {
+        cluster.fork();
+    });
+}
+else {
 
-// Evaluate expression returned from producer
-server.get('/consume', expression.consume);
+    var server = restify.createServer({
+        name: config.get('application:name')
+    });
 
-// Mock handlers for tests
-server.post('/mock/produce', function(req, res, next) {
-    res.json(201, {'expression': '1+1='});
-    next();
-});
+    // middleware
+    server.use(restify.bodyParser());
 
-server.post('/mock/report', function(req, res, next) {
-    res.json(201, {'success': true});
-    next();
-});
-// end mock handlers
+    // Heartbeat
+    server.get('/heartbeat', heartbeat.index);
 
-server.listen({
-        port: config.get('restify:port'),
-        host: config.get('restify:host')
-    },
-    function() {
-        var host = server.address().address,
-            port = server.address().port;
-        console.log('%s starting up at %s:%s using "%s" environment.', server.name, host, port, environment);
-});
+    // Evaluate expression returned from producer
+    server.get('/consume', expression.consume);
+
+    // Mock handlers for tests
+    server.post('/mock/produce', function(req, res, next) {
+        res.json(201, {'expression': '1+1='});
+        next();
+    });
+
+    server.post('/mock/report', function(req, res, next) {
+        res.json(201, {'success': true});
+        next();
+    });
+    // end mock handlers
+
+    server.listen({
+            port: config.get('restify:port'),
+            host: config.get('restify:host')
+        },
+        function() {
+            var host = server.address().address,
+                port = server.address().port;
+            console.log('%s starting up at %s:%s using "%s" environment.', server.name, host, port, environment);
+    });
+}
 
 module.exports = server;
