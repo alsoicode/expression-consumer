@@ -59,3 +59,11 @@ Alternatively, you can also use [Postman](https://www.getpostman.com/) to view t
 
 ## Tests
 Tests are written BDD-style with [Mocha](http://mochajs.org/) and [Supertest](https://github.com/visionmedia/supertest) and can be run using Grunt: `$ grunt test`
+
+## Diagrams
+UML diagrams for activity and sequence are located in the `./diagrams` directory:
+ 
+ - expression-consumer-activity.html
+ - expression-consumer-sequence.html
+
+and are viewable via your web browser.
