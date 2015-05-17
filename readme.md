@@ -60,6 +60,19 @@ Alternatively, you can also use [Postman](https://www.getpostman.com/) to view t
 ## Tests
 Tests are written BDD-style with [Mocha](http://mochajs.org/) and [Supertest](https://github.com/visionmedia/supertest) and can be run using Grunt: `$ grunt test`
 
+## Benchmarking
+
+Benchmarking is available as a Grunt task: `$ grunt benchmark`. Results are generated in HTML format and may be found in the `/generated/output.html` file, viewable in a web browser.
+
+To run the benchmarks, you must first run the server in test mode:
+
+    $ NODE_ENV=test node app.js
+
+then, in a separate terminal tab or window, run the benchmark task:
+
+    $ cd to application
+    $ grunt benchmark
+
 ## Diagrams
 UML diagrams for activity and sequence are located in the `./diagrams` directory:
  
